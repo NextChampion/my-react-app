@@ -14,7 +14,8 @@ module.exports = {
     output: {
         path: path.join(__dirname, './dist'),
         filename: '[name].[chunkhash].js',
-        chunkFilename: '[name].[chunkhash].js'
+        chunkFilename: '[name].[chunkhash].js',
+        publicPath : '/'
     },
     module: {
         rules: [{
@@ -42,7 +43,16 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor'
         }),
-        new UglifyJSPlugin()
+        new UglifyJSPlugin(),
+        new webpack.DefinePlugin({
+          'process.env': {
+              'NODE_ENV': JSON.stringify('production')
+           }
+       }),
+       new webpack.HashedModuleIdsPlugin(),
+       new webpack.optimize.CommonsChunkPlugin({
+           name: 'runtime'
+       })
     ],
 
     resolve: {
