@@ -3,6 +3,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     devtool: 'cheap-module-source-map',
@@ -19,22 +20,26 @@ module.exports = {
         publicPath : '/'
     },
     module: {
-        rules: [{
-            test: /\.js$/,
-            use: ['babel-loader'],
-            include: path.join(__dirname, 'src')
-        }, {
-            test: /\.css$/,
-            use: ['style-loader', 'css-loader']
-        }, {
-            test: /\.(png|jpg|gif)$/,
-            use: [{
-                loader: 'url-loader',
-                options: {
-                    limit: 8192
-                }
-            }]
-        }]
+        rules: [
+          {
+              test: /\.js$/,
+              use: ['babel-loader'],
+              include: path.join(__dirname, 'src')
+          },
+          {
+              test: /\.css$/,
+              use: ['style-loader', 'css-loader']
+          },
+          {
+              test: /\.(png|jpg|gif)$/,
+              use: [{
+                  loader: 'url-loader',
+                  options: {
+                      limit: 8192
+                  }
+              }]
+          },
+        ]
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -55,6 +60,7 @@ module.exports = {
            name: 'runtime'
        }),
        new CleanWebpackPlugin(['dist'])
+
     ],
 
     resolve: {
